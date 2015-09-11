@@ -1,4 +1,4 @@
-/// <binding />
+/// <binding AfterBuild='copyto' ProjectOpened='watch' />
 'use strict';
 
 module.exports = function (grunt) {
