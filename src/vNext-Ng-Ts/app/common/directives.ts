@@ -1,21 +1,107 @@
+/*
+	--- Angular.js Diretives in TypeScript ---
+	
+	This file demonstrates a simple method for defining Angular.js
+	Directives in TypeScript.
+	
+	The approach for defining directives with Typescript is 2-fold:
+	1.	Defining a class, implementing IDirective, with the appropiate
+		functions and properties
+	2.	Defining a factory function that returns an instance of the
+		directive and accepts any necessary dependencies.
+		
+	The most critical piece of this design is the factory() method.
+	This method returns a function with a $inject propery defined,
+	which allows passing the result of that fuction directly into
+	Angular's directive() function.
+	
+	In order to define the dependencies necessary in the directive,
+	simply include them in the $inject array on the `directive`
+	variable within the `factory()` function.
+	
+	For convenience and to save on some magic strings, each Directive
+	also includes a DirectiveName property, which we can use in other
+	code, such a unit tests.
+*/
+
 module myApp {
-	class myDirective implements angular.IDirective {
-		public restrict = 'AE';
-		public template = "<p>I'm a directive!</p>";
+	
+	export interface ICurrentTimeDirectiveScope extends angular.IScope {
+		format: string;
+	}
+	
+	class CurrentTimeDirective implements angular.IDirective {
+        public static get DirectiveName(): string { return 'currentTime'; };
+		public restrict = 'E';
+		public scope = {
+			format: '@'
+		};
 		
-		constructor(private $http: angular.IHttpService) { }
+		private momentFilter: IMomentFilter;
 		
-		public link: angular.IDirectiveLinkFn = (scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => {
-			element.addClass('someClass');
+		constructor(
+			private $interval: angular.IIntervalService,
+			$filter: angular.IFilterService) {
+				
+				this.momentFilter = <IMomentFilter>$filter(momentFilterId);
+			}
+		
+		public link: angular.IDirectiveLinkFn = (scope: ICurrentTimeDirectiveScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => {
+			var timeoutId;
+			
+			var updateTime = (elem: angular.IAugmentedJQuery) => {
+				element.text(this.momentFilter(moment(), scope.format));
+			}
+			
+			element.on('$destroy', () => {
+				this.$interval.cancel(timeoutId);
+			});
+			
+			timeoutId = this.$interval(() => {
+				updateTime(element);
+			}, 1000);
 		}
 		
 		static factory() {
-			var directive = ($http) => {
-				return new myDirective($http);
+			var directive = ($interval, momentFilter) => {
+				return new CurrentTimeDirective($interval, momentFilter);
 			};
-			directive.$inject = ['$http'];
+			directive.$inject = ['$interval', '$filter'];
 			return directive;
 		}
 	}
-	angular.module(commonModuleId).directive('myDirective', myDirective.factory());
+	angular.module(commonModuleId).directive(CurrentTimeDirective.DirectiveName, CurrentTimeDirective.factory());
+	
+	export interface IMyTemplateDirectiveScope extends angular.IScope {
+		options: {
+			message: string
+		},
+		data: any
+	}
+	
+	class MyTemplateDirective implements angular.IDirective {
+        public static get DirectiveName(): string { return 'myTemplateDirective'; };
+		public restrict = 'E';
+		public templateUrl = "app/templates/myTemplateDirective.html";
+		
+		public scope = {
+			options: '=',
+			data: '='
+		};
+		
+		constructor() { }
+		
+		public link: angular.IDirectiveLinkFn = (scope: IMyTemplateDirectiveScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => {
+			element.addClass('templated');
+		}
+		
+		static factory() {
+			var directive = () => {
+				return new MyTemplateDirective();
+			};
+			directive.$inject = [];
+			return directive;
+		}
+	}
+	angular.module(commonModuleId).directive(MyTemplateDirective.DirectiveName, MyTemplateDirective.factory());
 }

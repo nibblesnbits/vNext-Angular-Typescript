@@ -1,8 +1,6 @@
-/// <binding AfterBuild='copyto' ProjectOpened='watch' />
 'use strict';
 
 module.exports = function (grunt) {
-    // load all grunt tasks
     require('load-grunt-tasks')(grunt);
 
     var config = {
@@ -13,6 +11,8 @@ module.exports = function (grunt) {
     grunt.util._.extend(config, loadConfig('./grunt/options/'));
 
     grunt.initConfig(config);
+
+    grunt.loadTasks('grunt/tasks/');
 };
 
 function loadConfig(path) {

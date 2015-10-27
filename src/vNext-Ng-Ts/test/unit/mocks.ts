@@ -14,18 +14,18 @@ module tests {
         public generateRandomObjects(count?: number): string[] {
             if (!count) count = 3;
 
-            var commands = new Array<any>();
+            var objs = new Array<any>();
 
             for (var i = 0; i < count; i++) {
-                commands.push({
+                objs.push({
                     guid: this.chance.string({ length: 32, pool: this.letterPool })
                 });
             }
-            return commands;
+            return objs;
         }
         
         public generateRandomStrings(count: number): string[] {
-            return Array.apply(null, Array(count)).map(function () { return this.chance.string(); });
+            return Array.apply(null, Array(count)).map(() => this.chance.string({ length: 32, pool: this.letterPool }));
         }
     }
 }

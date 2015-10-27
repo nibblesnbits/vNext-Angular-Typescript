@@ -3,9 +3,9 @@ module myApp {
     angular.module(shellModuleId, [
         'ui.router'
     ])
-    .config(Config);
+    .config(ShellStateConfiguration);
   
-    function Config($stateProvider: ng.ui.IStateProvider) {
+    function ShellStateConfiguration($stateProvider: ng.ui.IStateProvider) {
         $stateProvider
             .state("app", {
                 abstract: true,
@@ -15,12 +15,9 @@ module myApp {
                 controllerAs: 'shell'
             });
     }
-    Config.$inject = ['$stateProvider'];
+    ShellStateConfiguration.$inject = ['$stateProvider'];
 
     class ShellController {
-        
-        public static $inject = [];
-        
-        constructor() { }
+        // nothing needed...yet.
     }
 }

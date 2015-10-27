@@ -3,6 +3,5 @@
 	<p ng-repeat="d in vm.data">
 		{{d.foo}}
 	</p>
-	<my-directive></my-directive>
-	<p>Message: {{vm.message}}<p>
+	<my-template-directive options="{message: 'hi'}"></my-template-directive>
 </div>

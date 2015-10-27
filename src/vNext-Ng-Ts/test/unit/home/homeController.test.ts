@@ -1,4 +1,3 @@
-/// <reference path="../../../typings/tsd.d.ts" />
 
 module tests {
     describe('HomeController', function () {
@@ -7,7 +6,7 @@ module tests {
             dataService: myApp.IDataService,
             createController: () => myApp.HomeController;
 
-        beforeEach(angular.mock.module(myApp.appModuleId));
+        beforeEach(angular.mock.module(myApp.homeModuleId, myApp.dataModuleId, myApp.commonModuleId));
 
         beforeEach(angular.mock.inject(($injector) => {
 
@@ -15,26 +14,22 @@ module tests {
             var $controller: angular.IControllerService = $injector.get('$controller');
             var mocks = new Mocks(new Chance());
             
-            dataService = $injector.get("dataService");
+            dataService = $injector.get(myApp.dataServiceId);
+            var logger = $injector.get(myApp.loggerServiceId);
             
             spyOn(dataService, "getData").and
                 .returnValue(new $q(resolve => resolve(mocks.generateRandomObjects())));
             
             createController = () => {
-                return $controller(myApp.homeControllerId, { dataService: dataService });
+                return $controller(myApp.homeControllerId, { dataService: dataService, logger: logger });
             }
         }));
         
         describe('on creation', () => {
-            var sut: myApp.HomeController;
-            
-            beforeEach(() => {
-                sut = createController();
-            });
             
             it('calls getData', () => {
-                
-                expect(dataService.getData).toHaveBeenCalledWith();
+                createController();
+                expect(dataService.getData).toHaveBeenCalled();
             });
         });
     });

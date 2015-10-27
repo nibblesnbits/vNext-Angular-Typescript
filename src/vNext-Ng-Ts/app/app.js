@@ -6,22 +6,23 @@ var myApp;
         myApp.homeModuleId,
         myApp.dataModuleId,
         myApp.commonModuleId,
-        'ui.router'
+        'ui.router',
+        'ngCookies'
     ])
-        .config(Config)
+        .constant('applicationConfig', {
+        DataApiUrl: '/api'
+    })
+        .config(myApp.LoggerConfiguration)
+        .config(myApp.ExceptionHandlerConfiguration)
+        .config(myApp.ApplicationConfiguration)
         .run(Run);
-    function Config($urlRouterProvider) {
-        $urlRouterProvider.otherwise('/home');
-        // greetingProvider.setGreeting("sup?");
-    }
-    Config.$inject = ['$urlRouterProvider'];
     function Run($rootScope, $state, $stateParams) {
         $rootScope["$state"] = $state;
         $rootScope["$stateParams"] = $stateParams;
-        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $rootScope.$on('$stateChangeSuccess', function (event, toState) {
             if (angular.isDefined(toState.data)) {
                 if (angular.isDefined(toState.data.pageTitle)) {
-                    $rootScope["pageTitle"] = toState.data.pageTitle + ' | Troi';
+                    $rootScope["pageTitle"] = toState.data.pageTitle + ' | MyApp';
                 }
             }
         });

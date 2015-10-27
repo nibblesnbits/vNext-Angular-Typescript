@@ -3,8 +3,8 @@ var myApp;
     angular.module(myApp.shellModuleId, [
         'ui.router'
     ])
-        .config(Config);
-    function Config($stateProvider) {
+        .config(ShellStateConfiguration);
+    function ShellStateConfiguration($stateProvider) {
         $stateProvider
             .state("app", {
             abstract: true,
@@ -14,11 +14,10 @@ var myApp;
             controllerAs: 'shell'
         });
     }
-    Config.$inject = ['$stateProvider'];
+    ShellStateConfiguration.$inject = ['$stateProvider'];
     var ShellController = (function () {
         function ShellController() {
         }
-        ShellController.$inject = [];
         return ShellController;
     })();
 })(myApp || (myApp = {}));
