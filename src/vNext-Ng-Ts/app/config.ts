@@ -4,7 +4,7 @@ module myApp {
 	export function ApplicationConfiguration($urlRouterProvider: angular.ui.IUrlRouterProvider, appConfig: IAppConfigServiceProvider ) {
         $urlRouterProvider.otherwise('/home');
         
-        appConfig.DataApiUrl = "/api";
+        //appConfig.DataApiUrl = "/api";
     }
     ApplicationConfiguration.$inject = ['$urlRouterProvider', appConfigProviderId];
 

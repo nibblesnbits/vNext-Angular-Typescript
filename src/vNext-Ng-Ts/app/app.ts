@@ -10,13 +10,13 @@ module myApp {
         'ui.router',
         'ngCookies'
     ])
-    .constant('applicationConfig', {
-        DataApiUrl: '/api'
-    })
-    .config(LoggerConfiguration)
-    .config(ExceptionHandlerConfiguration)
-    .config(ApplicationConfiguration)
-    .run(Run);
+        .constant(configConstKey, {
+            config_dataApiUrl: '/api'
+        })
+        .config(LoggerConfiguration)
+        .config(ExceptionHandlerConfiguration)
+        .config(ApplicationConfiguration)
+        .run(Run);
 
     
     function Run($rootScope: angular.IRootScopeService, $state: angular.ui.IStateService, $stateParams: angular.ui.IStateParamsService) {

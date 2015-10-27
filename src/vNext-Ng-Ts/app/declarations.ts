@@ -30,8 +30,9 @@ module myApp {
     
     export const notifierServiceId = 'notifierService';
     export const notifierProviderId = notifierServiceId + 'Provider';
-	
-	export const storageServiceFactoryId = 'storageServiceFactory';
+
+    export const storageServiceFactoryId = 'storageServiceFactory';
+    export const configConstKey = 'appConfigConst';
 	export const appConfigServiceId = 'appConfigService';
     export const appConfigProviderId = appConfigServiceId + 'Provider';
     

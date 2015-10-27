@@ -27,6 +27,7 @@ var myApp;
     myApp.notifierServiceId = 'notifierService';
     myApp.notifierProviderId = myApp.notifierServiceId + 'Provider';
     myApp.storageServiceFactoryId = 'storageServiceFactory';
+    myApp.configConstKey = 'appConfigConst';
     myApp.appConfigServiceId = 'appConfigService';
     myApp.appConfigProviderId = myApp.appConfigServiceId + 'Provider';
     myApp.loggerServiceId = 'loggerService';

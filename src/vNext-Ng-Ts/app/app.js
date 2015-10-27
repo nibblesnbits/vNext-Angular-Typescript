@@ -9,8 +9,8 @@ var myApp;
         'ui.router',
         'ngCookies'
     ])
-        .constant('applicationConfig', {
-        DataApiUrl: '/api'
+        .constant(myApp.configConstKey, {
+        config_dataApiUrl: '/api'
     })
         .config(myApp.LoggerConfiguration)
         .config(myApp.ExceptionHandlerConfiguration)
