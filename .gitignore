@@ -175,6 +175,9 @@ node_modules/
 orleans.codegen.cs
 src/vNext-Ng-Ts/wwwroot/
 src/vNext-Ng-Ts/typings/
+src/vNext-Ng-Ts/app/**/*.js*
+src/vNext-Ng-Ts/test/**/*.js*
+src/vNext-Ng-Ts/assets/**/*.css*
 
 # RIA/Silverlight projects
 Generated_Code/
